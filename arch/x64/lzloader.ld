@@ -9,7 +9,10 @@ OUTPUT_FORMAT(elf32-i386)
 SECTIONS
 {
     . = OSV_LZKERNEL_BASE + 0x1000;
-    .text : { *(.text) }
+    /*
+     *.text : { *(.text) }
+     */
+    .text : { *(.text) *(.rodata*) }
     . = OSV_LZKERNEL_BASE + 0x3000;
     .data : { *(.data) }
     .bss : { *(.bss) }

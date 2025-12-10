@@ -6,7 +6,7 @@
  */
 
 // Implement the Linux epoll(7) functions in OSV
-
+#include "osv/std_compat.hh" 
 #include <sys/epoll.h>
 #include <sys/poll.h>
 #include <memory>

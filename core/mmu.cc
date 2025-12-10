@@ -5,6 +5,7 @@
  * BSD license as described in the LICENSE file in the top-level directory.
  */
 
+
 #include <osv/mmu.hh>
 #include <osv/mempool.hh>
 #include "processor.hh"
@@ -33,7 +34,7 @@
 #include <osv/kernel_config_lazy_stack.h>
 #include <osv/kernel_config_lazy_stack_invariant.h>
 #include <osv/kernel_config_memory_jvm_balloon.h>
-
+#include <algorithm>
 // FIXME: Without this pragma, we get a lot of warnings that I don't know
 // how to explain or fix. For now, let's just ignore them :-(
 #pragma GCC diagnostic ignored "-Wstringop-overflow"

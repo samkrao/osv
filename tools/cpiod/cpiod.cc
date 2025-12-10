@@ -4,7 +4,11 @@
  * This work is open source software, licensed under the terms of the
  * BSD license as described in the LICENSE file in the top-level directory.
  */
-
+ 
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ip/tcp.hpp>
 #include <assert.h>
 #include <iostream>
 #include <fstream>
@@ -177,12 +181,24 @@ int main(int ac, char** av)
         return 1;
     }
 
-    boost::asio::io_service io_service;
-    tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), port));
+    //boost::asio::io_service io_service;
+    //tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), port));
+
+    boost::asio::io_context io_context;                         // ✅ was io_service
+
+    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
 
     cout << "Waiting for connection from host...\n";
-    boost::asio::ip::tcp::iostream socket;
-    acceptor.accept(*socket.rdbuf());
+    //boost::asio::ip::tcp::iostream socket;
+    //acceptor.accept(*socket.rdbuf());
+     // Accept into a real socket first
+    tcp::socket sock(io_context);
+    acceptor.accept(sock);                                      // ✅ accept socket
+
+    // Then wrap that socket into an iostream
+    tcp::iostream socket(std::move(sock)); 
+   
+    
     cpio_in_expand expand_files(prefix, verbose);
     cpio_in::parse(socket, expand_files);
     sync();

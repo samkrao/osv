@@ -29,7 +29,7 @@
 #include <libc/network/__dns.hh>
 
 #include <algorithm>
-
+#include <boost/asio/ip/address_v4.hpp>
 using namespace boost::asio;
 
 dhcp::dhcp_worker net_dhcp_worker;
@@ -43,8 +43,8 @@ u8 requested_options[] = {
     dhcp::DHCP_OPTION_HOSTNAME
 };
 
-const ip::address_v4 ipv4_zero = ip::address_v4::address_v4::from_string("0.0.0.0");
-
+//const ip::address_v4 ipv4_zero = ip::address_v4::address_v4::from_string("0.0.0.0");
+const ip::address_v4 ipv4_zero = ip::make_address_v4("0.0.0.0");
 // Returns whether we hooked the packet
 int dhcp_hook_rx(struct mbuf* m)
 {
@@ -239,8 +239,12 @@ namespace dhcp {
         pkt->secs = 0;
         pkt->flags = 0;
         memcpy(pkt->chaddr, IF_LLADDR(ifp), ETHER_ADDR_LEN);
-        ulong yip_n = htonl(yip.to_ulong());
-        ulong sip_n = htonl(sip.to_ulong());
+       // ulong yip_n = htonl(yip.to_ulong());
+       // ulong sip_n = htonl(sip.to_ulong());
+        auto yip_uint = yip.to_uint();
+        ulong yip_n = htonl(yip_uint);
+        auto sip_uint = sip.to_uint();
+        ulong sip_n = htonl(sip_uint);
         if(request_packet_type == DHCP_REQUEST_RENEWING || request_packet_type == DHCP_REQUEST_REBINDING) {
             // ciaddr should only be set to if RENEWING or REBINDING
             // See pages 21 and 30-31 in https://www.ietf.org/rfc/rfc2131.txt
@@ -299,8 +303,14 @@ namespace dhcp {
         pkt->secs = 0;
         pkt->flags = 0;
         memcpy(pkt->chaddr, IF_LLADDR(ifp), ETHER_ADDR_LEN);
-        ulong yip_n = htonl(yip.to_ulong());
-        ulong sip_n = htonl(sip.to_ulong());
+        //ulong yip_n = htonl(yip.to_ulong());
+        //ulong sip_n = htonl(sip.to_ulong());
+        auto yip_uint = yip.to_uint();
+        ulong yip_n = htonl(yip_uint);
+
+        auto sip_uint = sip.to_uint();
+        ulong sip_n = htonl(sip_uint);
+
         memcpy(&pkt->ciaddr.s_addr, &yip_n, 4);
 
         // Options

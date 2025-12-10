@@ -48,6 +48,7 @@
 // header files, so need to undefine it
 #undef hidden
 #include <boost/dynamic_bitset.hpp>
+#include "osv/std_compat.hh" 
 #include <boost/lockfree/stack.hpp>
 #include <boost/lockfree/policies.hpp>
 

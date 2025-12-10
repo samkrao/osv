@@ -19,7 +19,7 @@
 #include <osv/trace.hh>
 #include <osv/prio.hh>
 #include <chrono>
-
+#include <algorithm> 
 //These four function pointers will be set dynamically in INIT function of
 //libsolaris.so by calling register_pagecache_arc_funs() below. The arc_unshare_buf(),
 //arc_share_buf(), arc_buf_accessed() and arc_buf_get_hashkey()

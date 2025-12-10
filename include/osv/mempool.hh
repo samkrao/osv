@@ -21,6 +21,7 @@
 #include <osv/semaphore.hh>
 #include <osv/mmu.hh>
 #include <osv/contiguous_alloc.hh>
+#include "osv/std_compat.hh" 
 #include <boost/lockfree/stack.hpp>
 #include <boost/lockfree/policies.hpp>
 #include <osv/kernel_config_memory_jvm_balloon.h>

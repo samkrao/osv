@@ -16,7 +16,7 @@
 #include <osv/debug.hh>
 #include <osv/clock.hh>
 #include <osv/version.hh>
-
+#include <boost/asio/ip/address.hpp>
 #include "smp.hh"
 
 #ifdef __x86_64__
@@ -647,8 +647,15 @@ void* do_main_thread(void *_main_args)
                                       opt_defaultgw.c_str());
             }
             if (opt_nameserver.size() != 0) {
-                auto addr = boost::asio::ip::address_v4::from_string(opt_nameserver);
-                osv::set_dns_config({addr}, std::vector<std::string>());
+                //auto addr = boost::asio::ip::address_v4::from_string(opt_nameserver);
+                //osv::set_dns_config({addr}, std::vector<std::string>());
+                auto addr_v4 = boost::asio::ip::make_address_v4(opt_nameserver);
+                boost::asio::ip::address addr(addr_v4);
+
+                osv::set_dns_config(
+                    std::vector<boost::asio::ip::address>{addr},
+                    std::vector<std::string>{}
+                );
             }
 #if CONF_networking_dhcp
         }
