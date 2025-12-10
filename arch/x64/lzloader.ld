@@ -34,4 +34,12 @@ SECTIONS
     .debug_weaknames 0 : { *(.debug_weaknames) }
     .gdb_index 0 : { *(.gdb_index) }
     .comment : { *(.comment) }
+
+    /DISCARD/ : {
+        *(.eh_frame)
+        *(.eh_frame_hdr)
+        *(.eh_frame.*)
+        *(.gcc_except_table)
+        *(.gcc_except_table.*)
+    }
 } ENTRY(uncompress_loader)
